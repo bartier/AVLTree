@@ -4,11 +4,13 @@
 int main() {
     std::cout << "AVLTree Project" << std::endl;
 
-    AVLTree<int> *myAVLTree = new AVLTree<int>();
+    auto *myAVLTree = new AVLTree<int>();
 
     myAVLTree->insert(1);
     myAVLTree->contains(2);
     myAVLTree->remove(3);
+    
+    std::cout << myAVLTree << std::endl;
 
     return 0;
 }

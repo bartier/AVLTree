@@ -3,4 +3,4 @@ project(AVLTree)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(AVLTree main.cpp NodeTree.h AVLTree.h)
+add_executable(AVLTree src/main.cpp src/NodeTree.h src/AVLTree.h)

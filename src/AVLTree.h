@@ -16,6 +16,10 @@ public:
 
     bool contains(T const &info);
 
+    /**
+     * Level Order Tree Traversal
+     * @see https://www.geeksforgeeks.org/level-order-tree-traversal/
+     */
     template<typename U>
     friend std::ostream &operator<<(std::ostream &os, const AVLTree<U> &avl);
 

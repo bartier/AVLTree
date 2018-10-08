@@ -9,7 +9,7 @@ AVLTree<T>::AVLTree() {
 template<class T>
 void AVLTree<T>::insert(const T &info) {
     if (this->contains(info)) {
-        // não incluir informações iguais na árvore avl, lançar excessão
+        throw std::invalid_argument("Info already exists in AVL Tree");
     }
 
     NodeTree<T> *newNode = new NodeTree<T>(info);
@@ -24,7 +24,12 @@ void AVLTree<T>::insert(const T &info) {
 
     pathInsertion.push(tmp);
     while (!tmp->isLeaf()) {
-        tmp = tmp->next(info);
+        NodeTree<T> *tmp__2 = tmp->next(info);
+        if (tmp__2 == nullptr) {
+            break;
+        }
+
+        tmp = tmp__2;
         pathInsertion.push(tmp);
     }
 
@@ -33,8 +38,6 @@ void AVLTree<T>::insert(const T &info) {
     } else if (info > tmp->getInfo()) {
         tmp->setRight(newNode);
     }
-
-    // balancear após inserção normal de BST
     balance(pathInsertion);
 }
 
@@ -64,11 +67,20 @@ bool AVLTree<T>::contains(const T &info) {
 
     NodeTree<T> *tmp = root->next(info);
 
-    while (!tmp->isLeaf()) {
+    while (tmp != nullptr && !tmp->isLeaf()) {
         if (tmp->getInfo() == info) {
             return true;
         }
+
+//        NodeTree<T> *tmp__2 = tmp->next(info);
+//        if (tmp__2 == nullptr) {
+//            break;
+//        }
+//        tmp = tmp__2;
         tmp = tmp->next(info);
+    }
+    if (tmp == nullptr) {
+        return false;
     }
     return tmp->getInfo() == info;
 }
@@ -79,15 +91,23 @@ std::ostream &operator<<(std::ostream &os, const AVLTree<U> &avl) {
     NodeTree<U> *tmp = avl.root;
 
     while (tmp != nullptr) {
-        os << tmp->getInfo();
+        os << tmp->getInfo() << " ";
 
-        queue.push(tmp->getLeft());
-        queue.push(tmp->getRight());
+        if (tmp->getLeft() != nullptr) {
+            queue.push(tmp->getLeft());
+        }
 
-        NodeTree<U> *tmp__2 = queue.front();
+        if (tmp->getRight() != nullptr) {
+            queue.push(tmp->getRight());
+        }
+
+        NodeTree<U> *tmp__2 = nullptr;
+        if (queue.size() > 0) {
+            tmp__2 = queue.front();
+            queue.pop();
+        }
+
         tmp = tmp__2;
-
-        queue.pop();
     }
 
     return os;

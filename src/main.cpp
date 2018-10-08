@@ -7,6 +7,7 @@ int main() {
 
     auto *myAVLTree = new AVLTree<int>();
 
+
     myAVLTree->insert(15);
     myAVLTree->insert(27);
     myAVLTree->insert(49);
@@ -20,6 +21,7 @@ int main() {
     myAVLTree->insert(14);
 
     std::cout << *myAVLTree << std::endl;
+
 
     return 0;
 }

@@ -43,6 +43,59 @@ void AVLTree<T>::insert(const T &info) {
 
 template<class T>
 void AVLTree<T>::balance(std::stack<NodeTree<T> *> &stack) {
+    // 0, -1 e 1 são valores válidos para o BalanceFactor
+    // se BalanceFactor < 0
+    // subárvore da direita tem mais peso
+    // se BalanceFactor > 0
+    // subárvore da esquerda tem mais peso
+
+    int currentBalanceFactor;
+    NodeTree<T> *currentNode = nullptr;
+    NodeTree<T> *nextNode = nullptr;
+
+    while (stack.size() > 0) {
+        currentNode = stack.top();
+        stack.pop();
+        if (stack.size() > 0) {
+            nextNode = stack.top();
+        } else {
+            nextNode = nullptr;
+        }
+
+        currentBalanceFactor = currentNode->getBalanceFactor();
+
+        NodeTree<T> *rightChild;
+        if (currentBalanceFactor < -1) { // pendendo para a direita
+            rightChild = currentNode->getRight();
+            if (rightChild->getBalanceFactor() < 0) { // filho com mesmo sinal
+                // R.S.E(15,27)
+                rse(currentNode, rightChild);
+                if (nextNode != nullptr) {
+                    nextNode->setRight(rightChild);
+                } else {
+                    this->root = rightChild;
+                }
+//                if (nextNode != nullptr) {
+//                    // talvez tenha que usar
+//                }
+            }
+        }
+
+        NodeTree<T> *leftChild;
+        if (currentBalanceFactor > 1) { // pendendo para a esquerda
+            leftChild = currentNode->getLeft();
+            if (leftChild->getBalanceFactor() > 0) { // filho com mesmo sinal
+                rsd(currentNode, leftChild);
+            }
+            if (nextNode != nullptr) {
+                nextNode->setLeft(leftChild);
+            } else {
+                this->root = leftChild;
+            }
+        }
+
+
+    }
 
 }
 
@@ -72,16 +125,13 @@ bool AVLTree<T>::contains(const T &info) {
             return true;
         }
 
-//        NodeTree<T> *tmp__2 = tmp->next(info);
-//        if (tmp__2 == nullptr) {
-//            break;
-//        }
-//        tmp = tmp__2;
         tmp = tmp->next(info);
     }
+
     if (tmp == nullptr) {
         return false;
     }
+
     return tmp->getInfo() == info;
 }
 
@@ -111,4 +161,16 @@ std::ostream &operator<<(std::ostream &os, const AVLTree<U> &avl) {
     }
 
     return os;
+}
+
+template<class T>
+void AVLTree<T>::rse(NodeTree<T> *father, NodeTree<T> *child) {
+    child->setLeft(father);
+    father->setRight(nullptr);
+}
+
+template<class T>
+void AVLTree<T>::rsd(NodeTree<T> *father, NodeTree<T> *child) {
+    child->setRight(father);
+    father->setLeft(nullptr);
 }

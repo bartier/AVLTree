@@ -1,4 +1,3 @@
-#include <stack>
 #include <queue>
 
 template<class T>
@@ -7,7 +6,7 @@ AVLTree<T>::AVLTree() {
 }
 
 template<class T>
-void AVLTree<T>::insert(const T &info) {
+void AVLTree<T>::insert(T const &info) {
     if (this->contains(info)) {
         throw std::invalid_argument("Info already exists in AVL Tree");
     }
@@ -69,20 +68,19 @@ void AVLTree<T>::balance(std::stack<NodeTree<T> *> &stack) {
         if (currentBalanceFactor < -1) { // pendendo para a direita
             rightChild = currentNode->getRight();
             if (rightChild->getBalanceFactor() < 0) { // filho com mesmo sinal
-                // R.S.E(15,27)
-                rse(currentNode, rightChild);
+                leftRotation(currentNode, rightChild);
                 if (nextNode != nullptr) {
                     nextNode->setRight(rightChild);
                 } else {
                     this->root = rightChild;
                 }
 
-            } else { // situação joelho
+            } else { // situação joelho, filho com sinal diferente
                 NodeTree<T> *leftChildOfRightChild = rightChild->getLeft();
-                rsd(rightChild, leftChildOfRightChild);
+                rightRotation(rightChild, leftChildOfRightChild);
                 currentNode->setRight(leftChildOfRightChild);
 
-                rse(currentNode, leftChildOfRightChild);
+                leftRotation(currentNode, leftChildOfRightChild);
                 if (nextNode != nullptr) {
                     nextNode->setRight(leftChildOfRightChild);
                 } else {
@@ -95,31 +93,27 @@ void AVLTree<T>::balance(std::stack<NodeTree<T> *> &stack) {
         if (currentBalanceFactor > 1) { // pendendo para a esquerda
             leftChild = currentNode->getLeft();
             if (leftChild->getBalanceFactor() > 0) { // filho com mesmo sinal
-                rsd(currentNode, leftChild);
+                rightRotation(currentNode, leftChild);
 
                 if (nextNode != nullptr) {
                     nextNode->setLeft(leftChild);
                 } else {
                     this->root = leftChild;
                 }
-            } else {
+            } else { // situação joelho, filho com sinal diferente
                 NodeTree<T> *rightChildOfLeftChild = leftChild->getRight();
-                rse(leftChild, rightChildOfLeftChild);
+                leftRotation(leftChild, rightChildOfLeftChild);
                 currentNode->setLeft(rightChildOfLeftChild);
 
-                rsd(currentNode, rightChildOfLeftChild);
+                rightRotation(currentNode, rightChildOfLeftChild);
                 if (nextNode != nullptr) {
                     nextNode->setLeft(rightChildOfLeftChild);
                 } else {
                     this->root = rightChildOfLeftChild;
                 }
             }
-
         }
-
-
     }
-
 }
 
 template<class T>
@@ -187,7 +181,7 @@ std::ostream &operator<<(std::ostream &os, const AVLTree<U> &avl) {
 }
 
 template<class T>
-void AVLTree<T>::rse(NodeTree<T> *father, NodeTree<T> *child) {
+void AVLTree<T>::leftRotation(NodeTree<T> *father, NodeTree<T> *child) {
     if (child->getLeft() != nullptr) {
         NodeTree<T> *tmp = child->getLeft();
         father->setRight(tmp);
@@ -199,7 +193,7 @@ void AVLTree<T>::rse(NodeTree<T> *father, NodeTree<T> *child) {
 }
 
 template<class T>
-void AVLTree<T>::rsd(NodeTree<T> *father, NodeTree<T> *child) {
+void AVLTree<T>::rightRotation(NodeTree<T> *father, NodeTree<T> *child) {
     if (child->getRight() != nullptr) {
         NodeTree<T> *tmp = child->getRight();
         father->setLeft(tmp);
@@ -208,5 +202,4 @@ void AVLTree<T>::rsd(NodeTree<T> *father, NodeTree<T> *child) {
         child->setRight(father);
         father->setLeft(nullptr);
     }
-
 }

@@ -10,13 +10,17 @@ class AVLTree {
 public:
     explicit AVLTree<T>();
 
+    /**
+     * Insere uma informação na árvore mantendo balanceamento.
+     * @param info informação a ser inserida.
+     */
     void insert(T const &info);
 
     void remove(T const &info);
 
     /**
      * Verifica se a informação existe na árvore.
-     * @param info
+     * @param info info é a informação a ser buscada.
      * @return true se ela existe na árvore, caso contrário false.
      */
     bool contains(T const &info);
@@ -34,9 +38,9 @@ private:
 
     void balance(std::stack<NodeTree<T> *> &stack);
 
-    void rse(NodeTree<T> *father, NodeTree<T> *child);
+    void leftRotation(NodeTree<T> *father, NodeTree<T> *child);
 
-    void rsd(NodeTree<T> *father, NodeTree<T> *child);
+    void rightRotation(NodeTree<T> *father, NodeTree<T> *child);
 };
 
 #include "AVLTree.inl"

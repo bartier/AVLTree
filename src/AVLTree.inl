@@ -32,6 +32,7 @@ void AVLTree<T>::insert(const T &info) {
         tmp = tmp__2;
         pathInsertion.push(tmp);
     }
+    pathInsertion.push(newNode);
 
     if (info < tmp->getInfo()) {
         tmp->setLeft(newNode);
@@ -75,9 +76,18 @@ void AVLTree<T>::balance(std::stack<NodeTree<T> *> &stack) {
                 } else {
                     this->root = rightChild;
                 }
-//                if (nextNode != nullptr) {
-//                    // talvez tenha que usar
-//                }
+
+            } else { // situação joelho
+                NodeTree<T> *leftChildOfRightChild = rightChild->getLeft();
+                rsd(rightChild, leftChildOfRightChild);
+                currentNode->setRight(leftChildOfRightChild);
+
+                rse(currentNode, leftChildOfRightChild);
+                if (nextNode != nullptr) {
+                    nextNode->setRight(leftChildOfRightChild);
+                } else {
+                    this->root = leftChildOfRightChild;
+                }
             }
         }
 
@@ -86,12 +96,25 @@ void AVLTree<T>::balance(std::stack<NodeTree<T> *> &stack) {
             leftChild = currentNode->getLeft();
             if (leftChild->getBalanceFactor() > 0) { // filho com mesmo sinal
                 rsd(currentNode, leftChild);
-            }
-            if (nextNode != nullptr) {
-                nextNode->setLeft(leftChild);
+
+                if (nextNode != nullptr) {
+                    nextNode->setLeft(leftChild);
+                } else {
+                    this->root = leftChild;
+                }
             } else {
-                this->root = leftChild;
+                NodeTree<T> *rightChildOfLeftChild = leftChild->getRight();
+                rse(leftChild, rightChildOfLeftChild);
+                currentNode->setLeft(rightChildOfLeftChild);
+
+                rsd(currentNode, rightChildOfLeftChild);
+                if (nextNode != nullptr) {
+                    nextNode->setLeft(rightChildOfLeftChild);
+                } else {
+                    this->root = rightChildOfLeftChild;
+                }
             }
+
         }
 
 
@@ -165,12 +188,25 @@ std::ostream &operator<<(std::ostream &os, const AVLTree<U> &avl) {
 
 template<class T>
 void AVLTree<T>::rse(NodeTree<T> *father, NodeTree<T> *child) {
-    child->setLeft(father);
-    father->setRight(nullptr);
+    if (child->getLeft() != nullptr) {
+        NodeTree<T> *tmp = child->getLeft();
+        father->setRight(tmp);
+        child->setLeft(father);
+    } else {
+        child->setLeft(father);
+        father->setRight(nullptr);
+    }
 }
 
 template<class T>
 void AVLTree<T>::rsd(NodeTree<T> *father, NodeTree<T> *child) {
-    child->setRight(father);
-    father->setLeft(nullptr);
+    if (child->getRight() != nullptr) {
+        NodeTree<T> *tmp = child->getRight();
+        father->setLeft(tmp);
+        child->setRight(father);
+    } else {
+        child->setRight(father);
+        father->setLeft(nullptr);
+    }
+
 }

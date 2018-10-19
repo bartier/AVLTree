@@ -117,8 +117,50 @@ void AVLTree<T>::balance(std::stack<NodeTree<T> *> &stack) {
 }
 
 template<class T>
-void AVLTree<T>::remove(const T &) {
-    std::cout << "REMOVE" << std::endl;
+void AVLTree<T>::remove(const T &info) {
+    if (!this->contains(info)) {
+        throw std::invalid_argument("Info does not exists in AVL Tree");
+    }
+
+    if (this->root->getInfo() == info && this->root->isLeaf()) {
+        delete this->root;
+        return;
+    }
+
+    NodeTree<T> *fatherTarget = nullptr;
+    NodeTree<T> *target = this->root;
+
+    std::stack<NodeTree<T> *> pathDeletion;
+
+    pathDeletion.push(target);
+    while (target->getInfo() != info) {
+        fatherTarget = target;
+        target = target->next(info);
+        pathDeletion.push(target);
+    }
+    pathDeletion.pop();
+
+    if (target->isLeaf()) {
+        if (fatherTarget->getLeft() == target) {
+            fatherTarget->setLeft(nullptr);
+        } else {
+            fatherTarget->setRight(nullptr);
+        }
+
+        delete target;
+    }
+
+    NodeTree<T> *rightChildTarget = target->getRight();
+    NodeTree<T> *leftChildTarget = target->getLeft();
+
+    // para excluir target, encontrar substituto dele
+    // pode ser o maior dos menores
+    if (rightChildTarget != nullptr) {
+
+    }
+    // pode ser o menor dos maiores
+
+    balance(pathDeletion);
 }
 
 template<class T>

@@ -45,9 +45,9 @@ int main() {
     std::cout << myAVLTree->contains(133);
     std::cout << std::endl;
 
-    myAVLTree->remove(9);
-    myAVLTree->remove(13);
-    myAVLTree->remove(20);
+//    myAVLTree->remove(9);
+//    myAVLTree->remove(13);
+//    myAVLTree->remove(20);
     myAVLTree->remove(10);
 
     std::cout << "Árvore em nível: " << *myAVLTree << std::endl;

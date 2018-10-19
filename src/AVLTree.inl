@@ -148,19 +148,34 @@ void AVLTree<T>::remove(const T &info) {
         }
 
         delete target;
+        return;
     }
 
     NodeTree<T> *rightChildTarget = target->getRight();
     NodeTree<T> *leftChildTarget = target->getLeft();
 
-    // para excluir target, encontrar substituto dele
     // pode ser o maior dos menores
+    if (leftChildTarget != nullptr) {
+        NodeTree<T> *tmpNode = leftChildTarget;
+        T tmpInfo;
+        while (!tmpNode->isLeaf()) {
+            if (tmpNode->getRight() != nullptr) {
+                tmpNode = tmpNode->getRight();
+            } else {
+                tmpNode = tmpNode->getLeft();
+            }
+        }
+        target->setInfo(tmpNode->getInfo());
+        delete tmpNode;
+    }
+
+    // pode ser o menor dos maiores
     if (rightChildTarget != nullptr) {
 
     }
-    // pode ser o menor dos maiores
 
-    balance(pathDeletion);
+
+    //balance(pathDeletion);
 }
 
 template<class T>

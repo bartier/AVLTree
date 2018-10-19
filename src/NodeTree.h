@@ -12,6 +12,8 @@ public:
 
     void setRight(NodeTree<T> *right);
 
+    void setInfo(const T &info);
+
     NodeTree<T> *getLeft();
 
     NodeTree<T> *getRight();

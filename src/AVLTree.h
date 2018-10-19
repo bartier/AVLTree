@@ -16,6 +16,10 @@ public:
      */
     void insert(T const &info);
 
+    /**
+     * Remove uma informação na árvore mantendo balanceamento.
+     * @param info informação a ser removida.
+     */
     void remove(T const &info);
 
     /**

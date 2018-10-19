@@ -80,3 +80,8 @@ template<class T>
 NodeTree<T> *NodeTree<T>::getRight() {
     return this->right;
 }
+
+template<class T>
+void NodeTree<T>::setInfo(const T &info) {
+    this->info = info;
+}

@@ -40,7 +40,7 @@ public:
 private:
     NodeTree<T> *root;
 
-    void balance(std::stack<NodeTree<T> *> &stack);
+    void balance(std::stack<NodeTree<T> *> stack);
 
     void leftRotation(NodeTree<T> *father, NodeTree<T> *child);
 

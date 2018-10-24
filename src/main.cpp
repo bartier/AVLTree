@@ -45,10 +45,17 @@ int main() {
     std::cout << myAVLTree->contains(133);
     std::cout << std::endl;
 
-//    myAVLTree->remove(9);
-//    myAVLTree->remove(13);
-//    myAVLTree->remove(20);
+    myAVLTree->remove(15);
+    myAVLTree->remove(27);
+    myAVLTree->remove(49);
     myAVLTree->remove(10);
+    myAVLTree->remove(8);
+    myAVLTree->remove(67);
+    myAVLTree->remove(59);
+    myAVLTree->remove(9);
+    myAVLTree->remove(13);
+    myAVLTree->remove(20);
+    myAVLTree->remove(14);
 
     std::cout << "Árvore em nível: " << *myAVLTree << std::endl;
 

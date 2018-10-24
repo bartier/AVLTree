@@ -122,10 +122,10 @@ void AVLTree<T>::remove(const T &info) {
         throw std::invalid_argument("Info does not exists in AVL Tree");
     }
 
-    if (this->root->getInfo() == info && this->root->isLeaf()) {
-        delete this->root;
-        return;
-    }
+//    if (this->root->getInfo() == info && this->root->isLeaf()) {
+//        delete this->root;
+//        return;
+//    }
 
     NodeTree<T> *fatherTarget = nullptr;
     NodeTree<T> *target = this->root;
@@ -138,13 +138,16 @@ void AVLTree<T>::remove(const T &info) {
         target = target->next(info);
         pathDeletion.push(target);
     }
-    pathDeletion.pop();
 
     if (target->isLeaf()) {
-        if (fatherTarget->getLeft() == target) {
-            fatherTarget->setLeft(nullptr);
+        if (fatherTarget != nullptr) {
+            if (fatherTarget->getLeft() == target) {
+                fatherTarget->setLeft(nullptr);
+            } else {
+                fatherTarget->setRight(nullptr);
+            }
         } else {
-            fatherTarget->setRight(nullptr);
+            this->root = nullptr;
         }
 
         delete target;
@@ -156,26 +159,42 @@ void AVLTree<T>::remove(const T &info) {
 
     // pode ser o maior dos menores
     if (leftChildTarget != nullptr) {
-        NodeTree<T> *tmpNode = leftChildTarget;
+        NodeTree<T> *fatherOfTmpNode = target;
+        NodeTree<T> *currentNode = leftChildTarget;
         T tmpInfo;
-        while (!tmpNode->isLeaf()) {
-            if (tmpNode->getRight() != nullptr) {
-                tmpNode = tmpNode->getRight();
+
+        while (!currentNode->isLeaf()) {
+            fatherOfTmpNode = currentNode;
+            pathDeletion.push(currentNode);
+
+            if (currentNode->getRight() != nullptr) {
+                currentNode = currentNode->getRight();
             } else {
-                tmpNode = tmpNode->getLeft();
+                currentNode = currentNode->getLeft();
             }
         }
-        target->setInfo(tmpNode->getInfo());
-        delete tmpNode;
+        target->setInfo(currentNode->getInfo());
+
+        if (fatherOfTmpNode->getLeft() == currentNode) {
+            fatherOfTmpNode->setLeft(nullptr);
+        } else {
+            fatherOfTmpNode->setRight(nullptr);
+        }
+
+        delete currentNode;
+    } else {
+
+        // pode ser o menor dos maiores
+        if (rightChildTarget != nullptr) {
+            NodeTree<T> *tmpNode = target->getRight();
+
+            target->setInfo(rightChildTarget->getInfo());
+            target->setRight(rightChildTarget->getRight());
+
+            delete tmpNode;
+        }
     }
-
-    // pode ser o menor dos maiores
-    if (rightChildTarget != nullptr) {
-
-    }
-
-
-    //balance(pathDeletion);
+    balance(pathDeletion);
 }
 
 template<class T>
@@ -214,26 +233,29 @@ std::ostream &operator<<(std::ostream &os, const AVLTree<U> &avl) {
     std::queue<NodeTree<U> *> queue;
     NodeTree<U> *tmp = avl.root;
 
-    while (tmp != nullptr) {
-        os << tmp->getInfo() << " ";
+    if (tmp == nullptr) {
+        os << "Empty AVLTree";
+    } else {
+        while (tmp != nullptr) {
+            os << tmp->getInfo() << " ";
 
-        if (tmp->getLeft() != nullptr) {
-            queue.push(tmp->getLeft());
+            if (tmp->getLeft() != nullptr) {
+                queue.push(tmp->getLeft());
+            }
+
+            if (tmp->getRight() != nullptr) {
+                queue.push(tmp->getRight());
+            }
+
+            NodeTree<U> *tmp__2 = nullptr;
+            if (queue.size() > 0) {
+                tmp__2 = queue.front();
+                queue.pop();
+            }
+
+            tmp = tmp__2;
         }
-
-        if (tmp->getRight() != nullptr) {
-            queue.push(tmp->getRight());
-        }
-
-        NodeTree<U> *tmp__2 = nullptr;
-        if (queue.size() > 0) {
-            tmp__2 = queue.front();
-            queue.pop();
-        }
-
-        tmp = tmp__2;
     }
-
     return os;
 }
 

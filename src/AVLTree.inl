@@ -38,6 +38,7 @@ void AVLTree<T>::insert(T const &info) {
     } else if (info > tmp->getInfo()) {
         tmp->setRight(newNode);
     }
+
     balance(pathInsertion);
 }
 

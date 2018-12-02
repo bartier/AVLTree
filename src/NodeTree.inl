@@ -9,7 +9,7 @@ NodeTree<T>::NodeTree() {
 }
 
 template<class T>
-NodeTree<T>::NodeTree(const T &info) {
+NodeTree<T>::NodeTree(T info) {
     this->info = info;
     this->left = nullptr;
     this->right = nullptr;
@@ -26,6 +26,35 @@ void NodeTree<T>::setRight(NodeTree<T> *right) {
 }
 
 template<class T>
+void NodeTree<T>::setInfo(T info) {
+    this->info = info;
+}
+
+template<class T>
+NodeTree<T> *NodeTree<T>::getLeft() {
+    return this->left;
+}
+
+template<class T>
+NodeTree<T> *NodeTree<T>::getRight() {
+    return this->right;
+}
+
+template<class T>
+T NodeTree<T>::getInfo() {
+    return this->info;
+}
+
+template<class T>
+NodeTree<T> *NodeTree<T>::next(T info) {
+    if (info > this->info) {
+        return this->right;
+    } else if (info < this->info) {
+        return this->left;
+    }
+}
+
+template<class T>
 int NodeTree<T>::getBalanceFactor() {
     if (this->isLeaf()) {
         return 0;
@@ -35,6 +64,11 @@ int NodeTree<T>::getBalanceFactor() {
     int rightHeight = height(this->right);
 
     return leftHeight - rightHeight;
+}
+
+template<class T>
+bool NodeTree<T>::isLeaf() {
+    return this->left == nullptr && this->right == nullptr;
 }
 
 template<class T>
@@ -50,38 +84,4 @@ int NodeTree<T>::height(NodeTree<T> *node) {
     return std::max(height(node->left), height(node->right)) + 1;
 }
 
-template<class T>
-NodeTree<T> *NodeTree<T>::next(const T &info) {
-    if (info > this->info) {
-        return this->right;
-    } else if (info < this->info) {
-        return this->left;
-    }
 
-    // Lançar exceção se for igual...
-}
-
-template<class T>
-bool NodeTree<T>::isLeaf() {
-    return this->left == nullptr && this->right == nullptr;
-}
-
-template<class T>
-T NodeTree<T>::getInfo() {
-    return this->info;
-}
-
-template<class T>
-NodeTree<T> *NodeTree<T>::getLeft() {
-    return this->left;
-}
-
-template<class T>
-NodeTree<T> *NodeTree<T>::getRight() {
-    return this->right;
-}
-
-template<class T>
-void NodeTree<T>::setInfo(const T &info) {
-    this->info = info;
-}

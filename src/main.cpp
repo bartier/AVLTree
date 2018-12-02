@@ -3,9 +3,9 @@
 
 int main() {
 
-    std::cout << "AVLTree" << std::endl;
+    std::cout << "AVLTree Project" << std::endl;
 
-    auto *myAVLTree = new AVLTree<int>();
+    AVLTree<int> *myAVLTree = new AVLTree<int>();
 
     myAVLTree->insert(15);
     myAVLTree->insert(27);
@@ -18,6 +18,8 @@ int main() {
     myAVLTree->insert(13);
     myAVLTree->insert(20);
     myAVLTree->insert(14);
+
+    std::cout << "Árvore: " << *myAVLTree << std::endl;
 
     std::cout << myAVLTree->contains(15);
     std::cout << myAVLTree->contains(27);
@@ -57,7 +59,7 @@ int main() {
     myAVLTree->remove(20);
     myAVLTree->remove(14);
 
-    std::cout << "Árvore em nível: " << *myAVLTree << std::endl;
+    std::cout << "Árvore: " << *myAVLTree << std::endl;
 
     return 0;
 }

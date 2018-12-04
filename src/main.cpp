@@ -19,7 +19,7 @@ int main() {
     myAVLTree->insert(20);
     myAVLTree->insert(14);
 
-    std::cout << "Árvore: " << *myAVLTree << std::endl;
+    std::cout << "Arvore: " << *myAVLTree << std::endl;
 
     std::cout << myAVLTree->contains(15);
     std::cout << myAVLTree->contains(27);
@@ -59,7 +59,11 @@ int main() {
     myAVLTree->remove(20);
     myAVLTree->remove(14);
 
-    std::cout << "Árvore: " << *myAVLTree << std::endl;
+    std::cout << "Arvore: " << *myAVLTree << std::endl;
+
+    if (myAVLTree->empty()) {
+        std::cout << "Empty tree again" << std::endl;
+    }
 
     return 0;
 }

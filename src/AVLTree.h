@@ -13,6 +13,7 @@ public:
     void insert  (T info);
     void remove  (T info);
     bool contains(T info);
+    bool empty();
     T    matches (T info);
 
     template<typename U>

@@ -147,6 +147,11 @@ bool AVLTree<T>::contains(T info) {
 }
 
 template<class T>
+bool AVLTree<T>::empty() {
+    return this->root == nullptr;
+}
+
+template<class T>
 T AVLTree<T>::matches(T info) {
     if (root == nullptr) {
         return T();

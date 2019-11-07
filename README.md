@@ -34,7 +34,15 @@ make
 ./AVLTree
 ```
 
-Os comandos do arquivo `main.cpp` serão exibidos no seu terminal para demonstrar a manipulação da `AVLTree`. 
+A execução de `./AVLTree` deve exibir o resultado dos comandos do arquivo `main.cpp`, como abaixo:
+```
+AVLTree Project
+Arvore: {15,10,27,8,13,20,59,9,14,49,67}
+11111111111
+00000000000
+Arvore: {}
+Empty tree again
+```
 
 ## main.cpp
 

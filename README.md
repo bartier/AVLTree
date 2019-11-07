@@ -4,18 +4,41 @@ Projeto de árvore AVL para a matéria de Tópicos em Estrutura de Dados no curs
 
 ## Sobre o projeto
 
-Essas instruções farão com que você tenha uma cópia do projeto em execução na sua máquina local para fins de desenvolvimento e teste.
+![image](https://user-images.githubusercontent.com/18057391/68353930-caeb0000-00e9-11ea-85a5-a1fbf471ffb6.png)
+
+O projeto tem como objetivo a implementação da classe AVLTree que representa uma árvore AVL balanceada como o exemplo da imagem acima.
+
 ### Pré-requisitos
 
 O que você precisa para instalar e executar o software:
 
-- IDE recomendada (utilizada no desenvolvimento): CLion 2018.2
-- g++ compiler
+- g++ compiler, isto é, o comando `g++` disponível no seu terminal
+- comando `make` disponível no seu terminal
 
-#### Executando o projeto com CLion 2018.2
+#### Compilando e Executando o projeto
 
-1. Basta abrir o projeto > Abrir CMakeLists.txt > Clique em 'Load CMake project' > 
-2. No menu clique em 'Run' > Run 'AVLTree'.
+1. Clone esse repositório para sua máquina e acesse o diretório raiz do projeto.
+```
+git clone https://github.com/bartier/AVLTree.git
+cd AVLTree/
+```
+
+2. No diretório raiz do projeto execute o comando `cmake` e `make` para iniciar a compilação e criar o arquivo `AVLTree` a ser executado.
+```
+cmake .
+make
+```
+
+3. Pronto. Agora o arquivo `AVLTree` foi gerado. Basta executá-lo com o comando abaixo:
+```
+./AVLTree
+```
+
+Os comandos do arquivo `main.cpp` serão exibidos no seu terminal para demonstrar a manipulação da `AVLTree`. 
+
+## main.cpp
+
+O arquivo `main.cpp` irá instanciar um objeto da classe `AVLTree<int>` e chamar os métodos `insert`, `contains`, `remove` da classe.
 
 ## Construído com
 
